@@ -61,6 +61,9 @@ func initParentPool() {
 		debug.Println("latency parent pool", len(backPool.parent))
 		go updateParentProxyLatency()
 		parentProxy = newLatencyParentPool(backPool.parent)
+	case loadBalanceRandom:
+		debug.Println("random parent pool", len(backPool.parent))
+		parentProxy = &randomParentPool{*backPool}
 	}
 }
 
@@ -112,6 +115,18 @@ type hashParentPool struct {
 func (pp *hashParentPool) connect(url *URL) (srvconn net.Conn, err error) {
 	start := int(crc32.ChecksumIEEE([]byte(url.Host)) % uint32(len(pp.parent)))
 	debug.Printf("hash host %s try %d parent first", url.Host, start)
+	return connectInOrder(url, pp.parent, start)
+}
+
+// random parent pool
+type randomParentPool struct {
+	backupParentPool
+}
+
+func (pp *randomParentPool) connect(url *URL) (srvconn net.Conn, err error) {
+	// start := pp.parent[rand.Intn(len(pp.parent))]
+	start := rand.Intn(len(pp.parent))
+	debug.Printf("random host %s try %d parent first", url.Host, start)
 	return connectInOrder(url, pp.parent, start)
 }
 

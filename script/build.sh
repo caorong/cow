@@ -2,7 +2,7 @@
 
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
-version=`grep '^version=' ./install-cow.sh | sed -s 's/version=//'`
+version=`grep '^version=' ./install-cow.sh | gsed -s 's/version=//'`
 echo "creating cow binary version $version"
 
 mkdir -p bin
@@ -50,9 +50,10 @@ build() {
 build darwin amd64 mac64
 #build darwin 386 mac32
 build linux amd64 linux64
-build linux 386 linux32
-build linux arm linux-armv5tel
-build linux arm linux-armv6l
+# build linux 386 linux32
+# build linux arm linux-armv5tel
+# build linux arm linux-armv6l
+# for ras pi
 build linux arm linux-armv7l
-build windows amd64 win64
-build windows 386 win32
+# build windows amd64 win64
+# build windows 386 win32

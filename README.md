@@ -2,6 +2,18 @@
 
 COW 是一个简化穿墙的 HTTP 代理服务器。它能自动检测被墙网站，仅对这些网站使用二级代理。
 
+## Add 
+
+loadBalance = random  随机路由，以方便某些用途
+
+### develop
+
+go get
+
+### install
+
+cd script && ./build.sh
+
 [English README](README-en.md).
 
 当前版本：0.9.7 [CHANGELOG](CHANGELOG)
