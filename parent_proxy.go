@@ -41,6 +41,7 @@ func initParentPool() {
 	if !ok {
 		panic("initial parent pool should be backup pool")
 	}
+	printParentProxy(backPool.parent)
 	if debug {
 		printParentProxy(backPool.parent)
 	}
@@ -68,17 +69,17 @@ func initParentPool() {
 }
 
 func printParentProxy(parent []ParentWithFail) {
-	debug.Println("avaiable parent proxies:")
+	info.Println("avaiable parent proxies:")
 	for _, pp := range parent {
 		switch pc := pp.ParentProxy.(type) {
 		case *shadowsocksParent:
-			debug.Println("\tshadowsocks: ", pc.server)
+			info.Println("\tshadowsocks: ", pc.server)
 		case *httpParent:
-			debug.Println("\thttp parent: ", pc.server)
+			info.Println("\thttp parent: ", pc.server)
 		case *socksParent:
-			debug.Println("\tsocks parent: ", pc.server)
+			info.Println("\tsocks parent: ", pc.server)
 		case *cowParent:
-			debug.Println("\tcow parent: ", pc.server)
+			info.Println("\tcow parent: ", pc.server)
 		}
 	}
 }
@@ -127,6 +128,7 @@ func (pp *randomParentPool) connect(url *URL) (srvconn net.Conn, err error) {
 	// start := pp.parent[rand.Intn(len(pp.parent))]
 	start := rand.Intn(len(pp.parent))
 	debug.Printf("random host %s try %d parent first", url.Host, start)
+	// info.Printf("random host %s try %d parent first", url.Host, start)
 	return connectInOrder(url, pp.parent, start)
 }
 
