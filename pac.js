@@ -4,7 +4,8 @@ var httpProxy = 'PROXY';
 var directList = [
 	"", // corresponds to simple host name and ip address
 	"taobao.com",
-	"www.baidu.com"
+	"www.baidu.com",
+  "114.80.143"
 ];
 
 var directAcc = {};
@@ -48,6 +49,9 @@ function hostIsIP(host) {
 			return [true, true];
 		}
 	}
+  // make ip with * to fake private ip
+  if (directAcc[part[0] + '.' + part[1] + '.' + part[2]])
+	  return [true, true];
 	return [true, false];
 }
 
@@ -155,8 +159,10 @@ testData = [
 
 	// host in direct domain/host should return direct
 	{ host: 'taobao.com', mode: direct},
+	{ host: '33.2.taobao.com', mode: direct},
 	{ host: 'www.taobao.com', mode: direct},
 	{ host: 'www.baidu.com', mode: direct},
+	{ host: '114.80.143.8', mode: direct},
 
 	// host not in direct domain should return proxy
 	{ host: 'baidu.com', mode: httpProxy},

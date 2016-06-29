@@ -78,6 +78,9 @@ function hostIsIP(host) {
 			return [true, true];
 		}
 	}
+	// make ip with * to fake private ip
+	if (directAcc[part[0] + '.' + part[1] + '.' + part[2]])
+		return [true, true];
 	return [true, false];
 }
 
